@@ -1,0 +1,12 @@
+node_modules
+dist
+dist-ssr
+research/raw
+*.local
+.env
+.env.*
+!.env.example
+# local research notes and downloaded originals (third-party prices/claims recorded as do-not-publish)
+research/
+dist-dev
+dist-ssr-dev

@@ -1,0 +1,52 @@
+{
+  "frameCount": 190,
+  "fps": 24,
+  "aspect": 1.7777777777777777,
+  "pad": 4,
+  "sets": {
+    "hd": {
+      "path": "/assets/cinematic/frames/hd/",
+      "width": 1920,
+      "height": 1080,
+      "count": 190,
+      "bytes": 11228288
+    },
+    "md": {
+      "path": "/assets/cinematic/frames/md/",
+      "width": 1280,
+      "height": 720,
+      "count": 190,
+      "bytes": 6943326
+    }
+  },
+  "poster": {
+    "hd": "/assets/cinematic/poster-hd.webp",
+    "md": "/assets/cinematic/poster-md.webp"
+  },
+  "stills": [
+    {
+      "frame": 1,
+      "path": "/assets/cinematic/stills/still-01.webp"
+    },
+    {
+      "frame": 60,
+      "path": "/assets/cinematic/stills/still-02.webp"
+    },
+    {
+      "frame": 96,
+      "path": "/assets/cinematic/stills/still-03.webp"
+    },
+    {
+      "frame": 118,
+      "path": "/assets/cinematic/stills/still-04.webp"
+    },
+    {
+      "frame": 160,
+      "path": "/assets/cinematic/stills/still-05.webp"
+    },
+    {
+      "frame": 190,
+      "path": "/assets/cinematic/stills/still-06.webp"
+    }
+  ]
+}

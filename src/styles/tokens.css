@@ -1,0 +1,64 @@
+/* Longone — design tokens
+   Palette: obsidian / graphite / warm ivory / sandstone / champagne,
+   with the original Longone blue kept as a restrained accent. */
+:root {
+  --obsidian: #0d1013;
+  --obsidian-2: #13181c;
+  --graphite: #232a30;
+  --graphite-2: #333b42;
+  --ivory: #f1ece3;
+  --ivory-2: #e6dfd2;
+  --sandstone: #b9a385;
+  --champagne: #d8c6a2;
+  --ink: #15191d;
+  --ink-soft: #50565c;
+  --blue: #2e86d9; /* Longone blue — sampled from the original logo background */
+  --blue-soft: #74bdf1;
+  --danger-dark: #f2a59b;
+  --danger-light: #a23a2c;
+
+  --serif: "Newsreader Variable", "Newsreader", "Iowan Old Style", "Palatino Linotype", Georgia, serif;
+  --sans: "Jost Variable", "Jost", "Avenir Next", "Segoe UI", system-ui, sans-serif;
+
+  --fs-display: clamp(3rem, 8vw, 9rem);
+  --fs-xl: clamp(2.6rem, 5.6vw, 6.25rem);
+  --fs-l: clamp(2.1rem, 3.9vw, 4.25rem);
+  --fs-m: clamp(1.65rem, 2.5vw, 2.6rem);
+  --fs-lead: clamp(1.25rem, 1.6vw, 1.6rem);
+  --fs-body: 1.0625rem;
+  --fs-small: 0.875rem;
+  --fs-label: 0.72rem;
+
+  --pad: clamp(20px, 5vw, 80px);
+  --max: 1520px;
+  --gap: clamp(16px, 2vw, 32px);
+  --header-h: 76px;
+  --section: clamp(96px, 12vw, 200px);
+
+  --ease: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-io: cubic-bezier(0.65, 0, 0.35, 1);
+
+  /* light context (default) */
+  --fg: var(--ink);
+  --muted: var(--ink-soft);
+  --line: rgba(21, 25, 29, 0.14);
+  --surface: var(--ivory);
+}
+
+.dark,
+.cine,
+.dest,
+.contact,
+.dgal,
+.dhero,
+.footer,
+.menu,
+.header,
+.root-select,
+.curtain,
+.lightbox {
+  --fg: var(--ivory);
+  --muted: rgba(241, 236, 227, 0.68);
+  --line: rgba(241, 236, 227, 0.16);
+  --surface: var(--obsidian);
+}
