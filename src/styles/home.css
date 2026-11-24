@@ -1,22 +1,26 @@
 /* ================= Cinematic hero ================= */
 .cine {
   position: relative;
+  height: 100vh;
   height: 100svh;
   min-height: 560px;
   background: var(--obsidian);
   color: var(--fg);
 }
 .cine--film {
+  height: calc(100vh + var(--cine-scroll, 300vh));
   height: calc(100svh + var(--cine-scroll, 300vh));
 }
 @media (max-width: 820px) {
   .cine--film {
+    height: calc(100vh + var(--cine-scroll-sm, 210vh));
     height: calc(100svh + var(--cine-scroll-sm, 210vh));
   }
 }
 .cine__stage {
   position: sticky;
   top: 0;
+  height: 100vh;
   height: 100svh;
   min-height: 560px;
   overflow: hidden;
@@ -646,6 +650,7 @@
     margin-top: 28px;
   }
   .feat--feature .feat__media {
+    height: 92vh;
     height: 92svh;
   }
   .feat--feature .feat__body {
@@ -692,6 +697,7 @@
   grid-column: 1 / span 6;
   position: sticky;
   top: calc(var(--header-h) + 24px);
+  height: calc(100vh - var(--header-h) - 48px);
   height: calc(100svh - var(--header-h) - 48px);
   overflow: hidden;
   align-self: start;
@@ -713,6 +719,7 @@
   grid-column: 8 / span 5;
 }
 .dest__item {
+  min-height: 78vh;
   min-height: 78svh;
   display: flex;
   flex-direction: column;
@@ -727,6 +734,7 @@
 }
 .dest__item:first-child {
   border-top: 0;
+  min-height: 60vh;
   min-height: 60svh;
   justify-content: flex-start;
   padding-top: 0;

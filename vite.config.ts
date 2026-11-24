@@ -8,7 +8,9 @@ export default defineConfig({
   base: base.endsWith("/") ? base : `${base}/`,
   plugins: [react()],
   build: {
-    target: "es2022",
+    // Every iPhone browser (Safari, Brave, Chrome…) runs the system WebKit: keep the
+    // output parseable by iOS 15+ as well as current Android/desktop browsers.
+    target: ["safari15", "ios15", "chrome100", "edge100", "firefox100"],
     cssCodeSplit: true,
     sourcemap: false,
     rollupOptions: {

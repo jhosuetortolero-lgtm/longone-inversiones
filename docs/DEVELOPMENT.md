@@ -135,11 +135,14 @@ The geometry is untouched.
   - the closing "Beyond real estate." line.
 - **`FrameSequence`.** Frames are fetched coarse-to-fine: every 16th frame, then 8th, 4th, 2nd and 1st. Only a window of frames around the playhead is decoded into ImageBitmaps. The window comes from a memory budget: 64 MB on phones, 140–260 MB on desktop. Frames farthest from the playhead are freed first.
 - **Drawing.** Neighbouring frames are crossfaded for slow scrolls. If a frame is not decoded yet, the nearest decoded one is drawn, so the canvas never goes blank. On portrait screens the crop follows the subject through a per-frame focal point.
+- **Decoding.** `createImageBitmap` is used where it works; if it rejects (some iOS WebKit builds), the sequence switches to `<img>` + `decode()` for the remaining frames.
+- **Reduced motion** (`motion.reducedMotion` in `src/lib/motion.ts`). Default `"gentle"`: the film still plays, 1:1 with the visitor's own scroll (no inertia, no catch-up), captions fade without sliding; CSS keeps fades but drops slides, zooms, loops and parallax. Set it to `"static"` to show only the poster instead. Many iPhones have *Reduzir movimento* switched on, which is why the default is not `"static"`.
 - **Static fallback.** The page falls back to the static poster, with no pin and no frame downloads, in these cases:
-  - `prefers-reduced-motion`;
+  - `prefers-reduced-motion` when `motion.reducedMotion` is `"static"`;
   - Save-Data;
   - no canvas support;
-  - the first frame or more than 25 % of frames fail to load.
+  - the first frame or more than 25 % of frames fail to load or decode.
+- **Browser support.** Build target `safari15 / ios15 / chrome100 / edge100 / firefox100` (every iPhone browser, Brave included, uses the system WebKit). `svh` heights have `vh` fallbacks for iOS < 15.4.
 
 ## Deploying
 

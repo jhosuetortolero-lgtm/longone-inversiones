@@ -5,7 +5,7 @@ import { destinationBySlug } from "../data/destinations";
 import { media, src, srcSet } from "../data/media";
 import { formatDate, paths, useI18n } from "../i18n";
 import { absoluteAssetUrl, absoluteUrl, breadcrumbLd, organizationLd, useHead } from "../lib/head";
-import { getGsap, prefersReducedMotion, useIsoLayoutEffect } from "../lib/motion";
+import { getGsap, motionLevel, useIsoLayoutEffect } from "../lib/motion";
 import { Picture } from "../components/Picture";
 import { Lightbox } from "../components/Lightbox";
 import { TransitionLink } from "../components/TransitionLink";
@@ -350,7 +350,8 @@ function DevelopmentView({ d }: { d: Development }) {
   const root = useRef<HTMLDivElement>(null);
 
   useIsoLayoutEffect(() => {
-    if (!root.current || prefersReducedMotion()) return;
+    // Zoom + parallax only at full motion (skipped when the OS asks to reduce motion).
+    if (!root.current || motionLevel() !== "full") return;
     const { gsap } = getGsap();
     const ctx = gsap.context(() => {
       gsap.fromTo(".dhero__media img", { scale: 1.08 }, { scale: 1, duration: 2.4, ease: "expo.out" });

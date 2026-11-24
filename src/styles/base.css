@@ -302,13 +302,44 @@ main:focus {
   }
 }
 
+/* Reduce motion ("gentle", see motion.reducedMotion): fades stay; nothing slides, zooms
+   or loops. The scroll-controlled film keeps playing — it only moves while the visitor
+   scrolls. These @keyframes override the ones above while the media query matches. */
 @media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.01ms !important;
-    animation-delay: 0ms !important;
-    transition-duration: 0.01ms !important;
+  @keyframes fadeUp {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  @keyframes lineUp {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  @keyframes settle {
+    from,
+    to {
+      transform: none;
+    }
+  }
+  html {
     scroll-behavior: auto !important;
+  }
+  .cine__cue i {
+    animation: none !important;
+  }
+  .dest__shot {
+    transform: none !important;
+  }
+  .feat__media:hover .feat__frame,
+  .dgal__item button:hover img,
+  .drel__link:hover .drel__media img {
+    transform: none !important;
   }
 }

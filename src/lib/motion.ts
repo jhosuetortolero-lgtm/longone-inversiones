@@ -12,7 +12,18 @@ export const motion = {
   heroScrub: 0.35,
   /** Extra scroll distance of the pinned hero, in viewport heights. */
   heroScrollVh: { desktop: 300, mobile: 210 },
+  /**
+   * How the site honours the OS "reduce motion" setting (iPhone: Ajustes › Acessibilidade ›
+   * Movimento › Reduzir movimento; Android: Remover animações).
+   * - "gentle": the scroll-controlled film still plays — it only moves while the visitor
+   *   scrolls, 1:1 with the finger/wheel, no inertia. Fades stay; slides, zooms, parallax,
+   *   looping cues and smooth-scroll inertia are removed.
+   * - "static": no film and no scroll effects (poster image only).
+   */
+  reducedMotion: "gentle" as "gentle" | "static",
 };
+
+export type MotionLevel = "full" | "gentle" | "static";
 
 let registered = false;
 export function getGsap() {
@@ -26,5 +37,8 @@ export function getGsap() {
 
 export const prefersReducedMotion = () =>
   typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+/** "full" normally; with reduce-motion on, the level chosen in `motion.reducedMotion`. */
+export const motionLevel = (): MotionLevel => (prefersReducedMotion() ? motion.reducedMotion : "full");
 
 export const useIsoLayoutEffect = typeof window !== "undefined" ? useLayoutEffect : useEffect;

@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import cinematic from "../data/cinematic.generated.json";
 import { paths, useI18n } from "../i18n";
 import { FrameSequence } from "../lib/frameSequence";
-import { getGsap, motion, prefersReducedMotion, useIsoLayoutEffect } from "../lib/motion";
+import { getGsap, motion, motionLevel, useIsoLayoutEffect } from "../lib/motion";
 import { TransitionLink } from "../components/TransitionLink";
 import { getLenis } from "../lib/smoothScroll";
 import { asset } from "../lib/base";
@@ -50,13 +50,16 @@ export function CinematicHero() {
   useEffect(() => {
     const conn = (navigator as Navigator & { connection?: { saveData?: boolean } }).connection;
     const canvasOk = !!document.createElement("canvas").getContext;
-    setMode(prefersReducedMotion() || conn?.saveData || !canvasOk ? "static" : "film");
+    setMode(motionLevel() === "static" || conn?.saveData || !canvasOk ? "static" : "film");
   }, []);
 
   useIsoLayoutEffect(() => {
     if (mode !== "film" || !section.current || !canvas.current) return;
     const { gsap, ScrollTrigger } = getGsap();
     const root = section.current;
+    // Reduce-motion ("gentle"): film follows the scroll 1:1, texts fade without sliding.
+    const gentle = motionLevel() !== "full";
+    const shift = gentle ? 0 : 1;
     const small = window.matchMedia("(max-width: 820px)").matches;
     const dpr = Math.min(window.devicePixelRatio || 1, 2);
     const chosen = !small && window.innerWidth * dpr > 1500 ? cinematic.sets.hd : cinematic.sets.md;
@@ -100,7 +103,7 @@ export function CinematicHero() {
           start: "top top",
           end: "bottom bottom",
           // Lenis already smooths the wheel: follow it 1:1. Without it, add a short catch-up.
-          scrub: getLenis() ? true : motion.heroScrub,
+          scrub: getLenis() || gentle ? true : motion.heroScrub,
           invalidateOnRefresh: true,
         },
       });
@@ -124,7 +127,7 @@ export function CinematicHero() {
         0,
       );
 
-      tl.to(".cine__intro", { autoAlpha: 0, y: -48, duration: 0.07 }, 0.01);
+      tl.to(".cine__intro", { autoAlpha: 0, y: -48 * shift, duration: 0.07 }, 0.01);
       tl.to(".cine__scrim", { autoAlpha: 0, duration: 0.08 }, 0.02);
       tl.to(".cine__cue", { autoAlpha: 0, duration: 0.03 }, 0);
       tl.fromTo(".cine__rail", { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.03 }, 0.05);
@@ -133,13 +136,13 @@ export function CinematicHero() {
       captions.forEach((el, i) => {
         const start = i === 0 ? 0.085 : toTime(CHAPTER_FRAMES[i]) + 0.01;
         const end = i < captions.length - 1 ? toTime(CHAPTER_FRAMES[i + 1]) - 0.005 : FILM_END - 0.01;
-        tl.fromTo(el, { autoAlpha: 0, y: 28 }, { autoAlpha: 1, y: 0, duration: 0.03 }, start);
-        tl.to(el, { autoAlpha: 0, y: -28, duration: 0.03 }, Math.max(start + 0.04, end - 0.03));
+        tl.fromTo(el, { autoAlpha: 0, y: 28 * shift }, { autoAlpha: 1, y: 0, duration: 0.03 }, start);
+        tl.to(el, { autoAlpha: 0, y: -28 * shift, duration: 0.03 }, Math.max(start + 0.04, end - 0.03));
       });
 
       tl.to(".cine__rail", { autoAlpha: 0, duration: 0.03 }, FILM_END - 0.01);
       tl.fromTo(".cine__shade--end", { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.06 }, FILM_END - 0.03);
-      tl.fromTo(".cine__signature", { autoAlpha: 0, y: 36 }, { autoAlpha: 1, y: 0, duration: 0.06 }, FILM_END);
+      tl.fromTo(".cine__signature", { autoAlpha: 0, y: 36 * shift }, { autoAlpha: 1, y: 0, duration: 0.06 }, FILM_END);
       tl.to({}, { duration: 1 - (FILM_END + 0.06) }, FILM_END + 0.06);
     }, root);
 

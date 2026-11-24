@@ -164,6 +164,7 @@
 /* ================= Development page ================= */
 .dhero {
   position: relative;
+  min-height: 100vh;
   min-height: 100svh;
   background: var(--obsidian);
   color: var(--fg);
@@ -250,6 +251,7 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
   min-height: 0;
+  height: 100vh;
   height: 100svh;
   min-height: 560px;
 }
@@ -263,6 +265,7 @@
 .dhero--split .dhero__media {
   position: relative;
   grid-column: 2;
+  height: 100vh;
   height: 100svh;
   min-height: 560px;
 }

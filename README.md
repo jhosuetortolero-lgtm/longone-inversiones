@@ -38,7 +38,7 @@ A home abre com um **filme controlado pelo scroll**. Os 190 quadros do vídeo or
 | | |
 |---|---|
 | 🎬 **Filme no scroll** | Canvas + GSAP ScrollTrigger. Quadros carregados aos poucos (primeiro um a cada 16, até completar), cache com limite de memória e transição suave entre quadros. Celulares baixam uma versão mais leve. |
-| 🌊 **Rolagem natural** | Inércia com Lenis sincronizada ao GSAP. No toque, o celular mantém o scroll nativo. Com "reduzir movimento" ativado, tudo vira imagem estática. |
+| 🌊 **Rolagem natural** | Inércia com Lenis sincronizada ao GSAP. No toque, o celular mantém o scroll nativo. Com "reduzir movimento" ativado (comum no iPhone), o filme continua seguindo o dedo, só sem inércia, deslizes e zooms. |
 | 🏛️ **Cinco empreendimentos** | Green Sea Oceanique · Caminho das Ondas · Morê Nature Spa · María Farinha Flats Residence · Green Sea Essence. Cada um tem página própria com ficha, tipologias, lazer, galeria com lightbox, plantas, localização e fontes. |
 | 🌐 **Bilíngue de verdade** | Espanhol (padrão) e português, com URLs localizadas (`/es/emprendimientos/…`, `/pt/empreendimentos/…`), troca de idioma no menu e escolha lembrada. |
 | 💬 **Contato pelo WhatsApp** | O formulário abre o WhatsApp com todos os dados preenchidos: nome, país, idioma, e-mail, telefone com DDI do país escolhido, empreendimento e mensagem. |

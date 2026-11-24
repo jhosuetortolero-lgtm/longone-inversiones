@@ -6,7 +6,7 @@ import { getGsap, prefersReducedMotion } from "./motion";
  * cinematic canvas read the same smoothed position every frame.
  * - Uses the native scroll position: `position: sticky` keeps working.
  * - Touch devices keep their native momentum scrolling (syncTouch: false).
- * - Disabled with prefers-reduced-motion.
+ * - Disabled with prefers-reduced-motion (native scrolling, no inertia).
  */
 let lenis: Lenis | null = null;
 

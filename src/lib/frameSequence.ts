@@ -67,6 +67,9 @@ export class FrameSequence {
   private cssW = 0;
   private cssH = 0;
   private objectUrls = new Map<number, string>();
+  /** createImageBitmap is fastest, but some WebKit (iOS) builds reject Blob sources → <img> */
+  private bitmaps = typeof createImageBitmap === "function";
+  private decodeFailures = 0;
 
   constructor(o: FrameSequenceOptions) {
     this.o = o;
@@ -184,6 +187,9 @@ export class FrameSequence {
         })
         .catch(() => {
           this.blobs[i] = null;
+          this.decodeFailures++;
+          // nothing decodable → let the caller fall back to the poster instead of a frozen film
+          if ((i === 0 && !this.firstDrawn) || this.decodeFailures > this.files.length * 0.25) this.o.onFatal?.();
         })
         .finally(() => {
           this.decoding.delete(i);
@@ -193,14 +199,25 @@ export class FrameSequence {
   }
 
   private async decode(i: number, blob: Blob): Promise<Decoded> {
-    if (typeof createImageBitmap === "function") {
-      return createImageBitmap(blob);
+    if (this.bitmaps) {
+      try {
+        return await createImageBitmap(blob);
+      } catch {
+        // switch the whole sequence to <img> decoding and retry this frame below
+        this.bitmaps = false;
+      }
     }
     const url = URL.createObjectURL(blob);
     this.objectUrls.set(i, url);
     const img = new Image();
     img.src = url;
-    await img.decode();
+    try {
+      await img.decode();
+    } catch (e) {
+      URL.revokeObjectURL(url);
+      this.objectUrls.delete(i);
+      throw e;
+    }
     return img;
   }
 

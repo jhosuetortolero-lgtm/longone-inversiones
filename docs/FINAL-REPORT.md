@@ -18,7 +18,7 @@ Date: 24 November 2026. Status: **built and verified locally.** Not deployed, no
 - Five narrative chapters are timed to the footage, with a progress rail and a closing signature.
 - Frames load progressively, coarse-to-fine, and only a window of frames is kept decoded within a memory budget.
 - Phones get a smaller frame set with a crop that follows the subject.
-- Reduced motion, Save-Data and errors all fall back to a static poster.
+- Save-Data and load/decode errors fall back to a static poster. Reduced motion keeps the scroll-controlled film but removes inertia, slides, zooms and parallax ("gentle" mode, configurable).
 
 **Home sections:**
 
@@ -179,7 +179,8 @@ Full detail is in `docs/SOURCE-VERIFICATION.md`.
 
 Not tested:
 
-- **Reduced-motion and Save-Data fallbacks:** verified in code only; the browser could not emulate them.
+- **Reduced motion:** tested in Playwright WebKit 27.2 (iPhone 13 profile) and Chromium (Pixel 7): film plays and follows the scroll, images reveal, no overflow, no errors. **Save-Data:** verified in code only.
+- **iOS WebKit:** tested in Playwright WebKit (iPhone 13 profile), including a forced `createImageBitmap` failure (falls back to `<img>` decoding). Not tested on a physical iPhone.
 - **Safari / Firefox and real phones.**
 - **Lighthouse audit.**
 

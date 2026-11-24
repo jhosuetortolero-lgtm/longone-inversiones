@@ -6,7 +6,7 @@ import { media } from "../data/media";
 import { contact, formatPhone, office, officeMapEmbed, officeMapLink, site } from "../data/site";
 import { paths, useI18n } from "../i18n";
 import { asset } from "../lib/base";
-import { getGsap, prefersReducedMotion, useIsoLayoutEffect } from "../lib/motion";
+import { getGsap, motionLevel, useIsoLayoutEffect } from "../lib/motion";
 import { Picture } from "../components/Picture";
 import { TransitionLink } from "../components/TransitionLink";
 import { ContactForm } from "../components/ContactForm";
@@ -95,11 +95,17 @@ export function FeaturedDevelopments() {
   const root = useRef<HTMLElement>(null);
 
   useIsoLayoutEffect(() => {
-    if (!root.current || prefersReducedMotion()) return;
+    const level = motionLevel();
+    if (!root.current || level === "static") return;
     const { gsap } = getGsap();
     const ctx = gsap.context(() => {
       gsap.utils.toArray<HTMLElement>(".feat__frame").forEach((frame) => {
         const img = frame.querySelector("img");
+        // Reduce-motion ("gentle"): a plain fade-in, no wipe and no parallax.
+        if (level === "gentle") {
+          gsap.fromTo(frame, { autoAlpha: 0 }, { autoAlpha: 1, duration: 1, ease: "power2.out", scrollTrigger: { trigger: frame, start: "top 92%", once: true } });
+          return;
+        }
         gsap.fromTo(
           frame,
           { clipPath: "inset(14% 0% 0% 0%)" },
